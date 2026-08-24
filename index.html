@@ -6,50 +6,53 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
+      background-color: #000; /* Black background */
+      color: #fff; /* White text for contrast */
       margin: 0;
       padding: 0;
     }
     header {
-      background: rgba(0,0,0,0.6);
+      background: #111;
       padding: 20px;
       text-align: center;
+      border-bottom: 2px solid #e60000; /* Red accent line */
     }
     header h1 {
       margin: 0;
       font-size: 2.2em;
-      letter-spacing: 1px;
+      color: #e60000; /* Red title */
     }
     main {
       max-width: 800px;
       margin: 40px auto;
-      background: rgba(255,255,255,0.1);
+      background: #1a1a1a;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 20px rgba(255,0,0,0.3);
       text-align: center;
     }
     input {
       width: 70%;
       padding: 12px;
       border-radius: 6px;
-      border: none;
+      border: 1px solid #e60000;
       margin: 10px 0;
       font-size: 1em;
+      background: #000;
+      color: #fff;
     }
     button {
       padding: 12px 25px;
       border: none;
       border-radius: 6px;
-      background: #ff9800;
+      background: #e60000; /* Red button */
       color: #fff;
       font-size: 1em;
       cursor: pointer;
       transition: background 0.3s ease;
     }
     button:hover {
-      background: #e68900;
+      background: #b30000; /* Darker red on hover */
     }
     .video-wrapper {
       position: relative;
@@ -59,7 +62,7 @@
       max-width: 100%;
       margin-top: 25px;
       border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 15px rgba(255,0,0,0.4);
     }
     .video-wrapper iframe {
       position: absolute;
@@ -74,7 +77,8 @@
       text-align: center;
       padding: 15px;
       font-size: 0.9em;
-      background: rgba(0,0,0,0.5);
+      background: #111;
+      border-top: 2px solid #e60000;
       margin-top: 40px;
     }
   </style>
@@ -86,11 +90,11 @@
   <main>
     <p>Paste a YouTube or Facebook video link below:</p>
     <input type="text" id="videoUrl" placeholder="Enter video URL here">
-    <button onclick="embedVideo()">Show Video</button>
+    <button onclick="embedVideo()">Search</button>
     <div id="videoContainer"></div>
   </main>
   <footer>
-    <p>&copy; 2026 Mclarendownload. Built for demo purposes.</p>
+    <p>&copy; 2026 Mclarendownload. All rights reserved.</p>
   </footer>
 
   <script>
@@ -110,12 +114,12 @@
         if (videoId) {
           embedCode = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
         } else {
-          embedCode = '<p>Invalid YouTube link.</p>';
+          embedCode = '<p style="color:#e60000;">Invalid YouTube link.</p>';
         }
       } else if (url.includes('facebook.com')) {
         embedCode = `<div class="video-wrapper"><iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0" allowfullscreen></iframe></div>`;
       } else {
-        embedCode = '<p>Unsupported link. Please use YouTube or Facebook.</p>';
+        embedCode = '<p style="color:#e60000;">Unsupported link. Please use YouTube or Facebook.</p>';
       }
 
       container.innerHTML = embedCode;
