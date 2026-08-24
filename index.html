@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Embed Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    input {
+      width: 60%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    iframe {
+      margin-top: 20px;
+      width: 560px;
+      height: 315px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Embed a Video</h1>
+  <p>Paste a YouTube or Facebook video link below:</p>
+  
+  <input type="text" id="videoUrl" placeholder="Enter video URL here">
+  <button onclick="embedVideo()">Show Video</button>
+  
+  <div id="videoContainer"></div>
+
+  <script>
+    function embedVideo() {
+      const url = document.getElementById('videoUrl').value;
+      const container = document.getElementById('videoContainer');
+      let embedCode = '';
+
+      // Check if it's a YouTube link
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const videoId = url.split('v=')[1] || url.split('/').pop();
+        embedCode = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+      }
+      // Check if it's a Facebook link
+      else if (url.includes('facebook.com')) {
+        embedCode = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" allowfullscreen></iframe>`;
+      }
+      else {
+        embedCode = '<p>Unsupported link. Please use YouTube or Facebook.</p>';
+      }
+
+      container.innerHTML = embedCode;
+    }
+  </script>
+</body>
+</html>
