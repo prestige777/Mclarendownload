@@ -2,66 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Embed Demo</title>
+  <title>Mclarendownload</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
       text-align: center;
-      margin: 40px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+      letter-spacing: 1px;
+    }
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
     }
     input {
-      width: 60%;
-      padding: 10px;
+      width: 70%;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
       margin: 10px 0;
+      font-size: 1em;
     }
     button {
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-    iframe {
-      margin-top: 20px;
-      width: 560px;
-      height: 315px;
+      padding: 12px 25px;
       border: none;
+      border-radius: 6px;
+      background: #ff9800;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #e68900;
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin-top: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      background: rgba(0,0,0,0.5);
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <h1>Embed a Video</h1>
-  <p>Paste a YouTube or Facebook video link below:</p>
-  
-  <input type="text" id="videoUrl" placeholder="Enter video URL here">
-  <button onclick="embedVideo()">Show Video</button>
-  
-  <div id="videoContainer"></div>
+  <header>
+    <h1>Mclarendownload</h1>
+  </header>
+  <main>
+    <p>Paste a YouTube or Facebook video link below:</p>
+    <input type="text" id="videoUrl" placeholder="Enter video URL here">
+    <button onclick="embedVideo()">Show Video</button>
+    <div id="videoContainer"></div>
+  </main>
+  <footer>
+    <p>&copy; 2026 Mclarendownload. Built for demo purposes.</p>
+  </footer>
 
   <script>
-function getYouTubeId(url) {
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[2].length === 11) ? match[2] : null;
-}
-
-function embedVideo() {
-  const url = document.getElementById('videoUrl').value;
-  const container = document.getElementById('videoContainer');
-  let embedCode = '';
-
-  if (url.includes('youtube.com') || url.includes('youtu.be')) {
-    const videoId = getYouTubeId(url);
-    if (videoId) {
-      embedCode = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
-    } else {
-      embedCode = '<p>Invalid YouTube link.</p>';
+    function getYouTubeId(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\\?v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
     }
-  } else if (url.includes('facebook.com')) {
-    embedCode = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" allowfullscreen></iframe>`;
-  } else {
-    embedCode = '<p>Unsupported link. Please use YouTube or Facebook.</p>';
-  }
 
-  container.innerHTML = embedCode;
-}
-</script>
+    function embedVideo() {
+      const url = document.getElementById('videoUrl').value;
+      const container = document.getElementById('videoContainer');
+      let embedCode = '';
+
+      if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const videoId = getYouTubeId(url);
+        if (videoId) {
+          embedCode = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+        } else {
+          embedCode = '<p>Invalid YouTube link.</p>';
+        }
+      } else if (url.includes('facebook.com')) {
+        embedCode = `<div class="video-wrapper"><iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0" allowfullscreen></iframe></div>`;
+      } else {
+        embedCode = '<p>Unsupported link. Please use YouTube or Facebook.</p>';
+      }
+
+      container.innerHTML = embedCode;
+    }
+  </script>
 </body>
 </html>
