@@ -2,73 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mclarendownload</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000; /* Black background */
-      color: #fff; /* White text for contrast */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
-    header {
-      background: #111;
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+      color: #fff;
+      min-height: 100vh;
       padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
       text-align: center;
-      border-bottom: 2px solid #e60000; /* Red accent line */
+      margin-bottom: 40px;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2.2em;
-      color: #e60000; /* Red title */
+
+    h1 {
+      font-size: 3em;
+      color: #e60000;
+      text-shadow: 0 0 20px rgba(230, 0, 0, 0.5);
+      margin-bottom: 10px;
     }
-    main {
-      max-width: 800px;
-      margin: 40px auto;
-      background: #1a1a1a;
+
+    .subtitle {
+      color: #aaa;
+      font-size: 1.1em;
+    }
+
+    .input-section {
+      background: #111;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(255,0,0,0.3);
-      text-align: center;
+      border: 2px solid #e60000;
+      margin-bottom: 30px;
+      box-shadow: 0 0 30px rgba(230, 0, 0, 0.2);
     }
-    input {
-      width: 70%;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #e60000;
-      margin: 10px 0;
-      font-size: 1em;
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #333;
+      border-radius: 8px;
       background: #000;
       color: #fff;
+      font-size: 1em;
+      transition: border-color 0.3s;
     }
-    button {
-      padding: 12px 25px;
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #e60000;
+    }
+
+    .btn {
+      padding: 15px 30px;
       border: none;
-      border-radius: 6px;
-      background: #e60000; /* Red button */
+      border-radius: 8px;
+      background: #e60000;
       color: #fff;
       font-size: 1em;
+      font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
-      margin: 5px;
+      transition: all 0.3s;
     }
-    button:hover {
-      background: #b30000; /* Darker red on hover */
+
+    .btn:hover {
+      background: #b30000;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(230, 0, 0, 0.4);
     }
-    button:disabled {
+
+    .btn:disabled {
       background: #666;
       cursor: not-allowed;
+      transform: none;
     }
+
+    .btn-secondary {
+      background: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #555;
+    }
+
+    .video-section {
+      background: #111;
+      padding: 30px;
+      border-radius: 12px;
+      border: 2px solid #e60000;
+      margin-bottom: 30px;
+      display: none;
+      box-shadow: 0 0 30px rgba(230, 0, 0, 0.2);
+    }
+
+    .video-section.active {
+      display: block;
+    }
+
     .video-wrapper {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
+      width: 100%;
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      max-width: 100%;
-      margin-top: 25px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(255,0,0,0.4);
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
+
     .video-wrapper iframe {
       position: absolute;
       top: 0;
@@ -76,217 +135,217 @@
       width: 100%;
       height: 100%;
       border: none;
-      border-radius: 12px;
     }
-    .download-section {
-      margin-top: 20px;
+
+    .download-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status {
       padding: 15px;
-      background: #0d0d0d;
       border-radius: 8px;
-      border: 1px solid #e60000;
-    }
-    .download-section h3 {
-      margin-top: 0;
-      color: #e60000;
-    }
-    .download-info {
-      font-size: 0.9em;
-      color: #ccc;
-      margin: 10px 0;
-    }
-    .status-message {
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
+      margin-bottom: 15px;
       display: none;
+      font-weight: bold;
     }
-    .status-message.success {
+
+    .status.show {
+      display: block;
+    }
+
+    .status.success {
       background: #1a5f1a;
       color: #90EE90;
-      display: block;
+      border: 1px solid #90EE90;
     }
-    .status-message.error {
+
+    .status.error {
       background: #5f1a1a;
       color: #FF6B6B;
-      display: block;
+      border: 1px solid #FF6B6B;
     }
-    .status-message.loading {
+
+    .status.loading {
       background: #1a3a5f;
       color: #87CEEB;
-      display: block;
+      border: 1px solid #87CEEB;
     }
+
+    .video-info {
+      color: #aaa;
+      font-size: 0.9em;
+      margin-top: 15px;
+    }
+
     footer {
       text-align: center;
-      padding: 15px;
-      font-size: 0.9em;
-      background: #111;
-      border-top: 2px solid #e60000;
+      color: #666;
       margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Mclarendownload</h1>
-  </header>
-  <main>
-    <p>Paste a YouTube or Facebook video link below:</p>
-    <input type="text" id="videoUrl" placeholder="Enter video URL here">
-    <button onclick="embedVideo()">Search</button>
-    <div id="videoContainer"></div>
-    
-    <div id="downloadSection" class="download-section" style="display:none;">
-      <h3>Download Options</h3>
-      <div id="statusMessage" class="status-message"></div>
-      <div class="download-info" id="videoInfo"></div>
-      <button id="downloadBtn" onclick="downloadVideo()">⬇️ Download Video</button>
-      <button id="openInNewTab" onclick="openInNewTab()">🔗 Open in New Tab</button>
+  <div class="container">
+    <header>
+      <h1>🎬 Mclarendownload</h1>
+      <p class="subtitle">Download YouTube & Facebook Videos</p>
+    </header>
+
+    <div class="input-section">
+      <p style="margin-bottom: 15px; color: #ccc;">Paste a YouTube or Facebook video URL:</p>
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="videoUrl" 
+          placeholder="https://www.youtube.com/watch?v=... or https://www.facebook.com/..."
+        >
+        <button class="btn" onclick="searchVideo()">Search</button>
+      </div>
+      <div id="statusSearch" class="status"></div>
     </div>
-  </main>
-  <footer>
-    <p>&copy; 2026 Mclarendownload. All rights reserved.</p>
-  </footer>
+
+    <div id="videoSection" class="video-section">
+      <div id="statusDownload" class="status"></div>
+      <div id="videoContainer"></div>
+      <div class="download-controls">
+        <button class="btn" id="downloadBtn" onclick="downloadVideo()">⬇️ Download Video</button>
+        <button class="btn btn-secondary" id="openBtn" onclick="openInNewTab()">🔗 Open in New Tab</button>
+      </div>
+      <div class="video-info" id="videoInfo"></div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Mclarendownload. All rights reserved.</p>
+    </footer>
+  </div>
 
   <script>
-    let currentVideoUrl = '';
-    let currentVideoTitle = '';
-    let currentVideoQuality = '';
+    let currentUrl = '';
 
     function getYouTubeId(url) {
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#&?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
+      const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
     }
 
-    function showStatus(message, type) {
-      const statusEl = document.getElementById('statusMessage');
-      statusEl.textContent = message;
-      statusEl.className = `status-message ${type}`;
+    function showStatus(elementId, message, type) {
+      const el = document.getElementById(elementId);
+      el.textContent = message;
+      el.className = `status show ${type}`;
     }
 
-    function embedVideo() {
-      const url = document.getElementById('videoUrl').value;
+    function clearStatus(elementId) {
+      const el = document.getElementById(elementId);
+      el.className = 'status';
+    }
+
+    function searchVideo() {
+      const url = document.getElementById('videoUrl').value.trim();
+      const videoSection = document.getElementById('videoSection');
       const container = document.getElementById('videoContainer');
-      let embedCode = '';
-      currentVideoUrl = '';
 
       if (!url) {
-        showStatus('Please enter a URL', 'error');
+        showStatus('statusSearch', '❌ Please enter a URL', 'error');
+        videoSection.classList.remove('active');
         return;
       }
+
+      clearStatus('statusSearch');
 
       if (url.includes('youtube.com') || url.includes('youtu.be')) {
         const videoId = getYouTubeId(url);
         if (videoId) {
-          embedCode = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
-          currentVideoUrl = url;
-          document.getElementById('downloadSection').style.display = 'block';
-          document.getElementById('videoInfo').textContent = 'Ready to download! Click the download button below.';
-          showStatus('', '');
+          currentUrl = url;
+          container.innerHTML = `<div class="video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+          videoSection.classList.add('active');
+          document.getElementById('videoInfo').textContent = '✅ Video loaded! Ready to download.';
         } else {
-          embedCode = '<p style="color:#e60000;">Invalid YouTube link.</p>';
-          document.getElementById('downloadSection').style.display = 'none';
+          showStatus('statusSearch', '❌ Invalid YouTube URL', 'error');
+          videoSection.classList.remove('active');
         }
       } else if (url.includes('facebook.com')) {
-        embedCode = `<div class="video-wrapper"><iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0" allowfullscreen></iframe></div>`;
-        currentVideoUrl = url;
-        document.getElementById('downloadSection').style.display = 'block';
-        document.getElementById('videoInfo').textContent = 'Ready to download! Click the download button below.';
-        showStatus('', '');
+        currentUrl = url;
+        container.innerHTML = `<div class="video-wrapper"><iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=500" allowfullscreen></iframe></div>`;
+        videoSection.classList.add('active');
+        document.getElementById('videoInfo').textContent = '✅ Facebook video loaded! Ready to download.';
       } else {
-        embedCode = '<p style="color:#e60000;">Unsupported link. Please use YouTube or Facebook.</p>';
-        document.getElementById('downloadSection').style.display = 'none';
+        showStatus('statusSearch', '❌ Unsupported URL. Use YouTube or Facebook links.', 'error');
+        videoSection.classList.remove('active');
       }
-
-      container.innerHTML = embedCode;
     }
 
     function downloadVideo() {
-      if (!currentVideoUrl) {
-        showStatus('Please search for a video first', 'error');
+      if (!currentUrl) {
+        showStatus('statusDownload', '❌ Please search for a video first', 'error');
         return;
       }
 
-      const downloadBtn = document.getElementById('downloadBtn');
-      downloadBtn.disabled = true;
-      downloadBtn.textContent = '⏳ Processing...';
+      const btn = document.getElementById('downloadBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Processing...';
 
-      showStatus('Fetching download link...', 'loading');
+      showStatus('statusDownload', '⏳ Fetching download link...', 'loading');
 
-      const endpoint = currentVideoUrl.includes('facebook') 
-        ? '/api/download-facebook' 
-        : '/api/download-youtube';
+      const endpoint = currentUrl.includes('facebook') ? '/api/download-facebook' : '/api/download-youtube';
 
       fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: currentVideoUrl })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: currentUrl })
       })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         if (data.success && data.videoUrl) {
-          currentVideoTitle = data.title || 'video';
-          currentVideoQuality = data.quality || 'Unknown';
-          document.getElementById('videoInfo').innerHTML = `
-            <strong>Title:</strong> ${data.title}<br>
-            <strong>Quality:</strong> ${data.quality}
-          `;
-          
-          // Trigger download
           const a = document.createElement('a');
           a.href = data.videoUrl;
-          a.download = `${data.title || 'video'}.mp4`;
+          a.download = (data.title || 'video') + '.mp4';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
           
-          showStatus('✅ Download started! Check your downloads folder.', 'success');
+          showStatus('statusDownload', '✅ Download started! Check your Downloads folder.', 'success');
+          document.getElementById('videoInfo').textContent = `Title: ${data.title} | Quality: ${data.quality}`;
         } else {
-          showStatus(`❌ Error: ${data.error || 'Could not extract video'}`, 'error');
-          document.getElementById('videoInfo').textContent = data.error || 'Failed to get download link';
+          showStatus('statusDownload', `❌ ${data.error || 'Could not extract video'}`, 'error');
         }
       })
-      .catch(error => {
-        console.error('Error:', error);
-        showStatus(`❌ Error: ${error.message}`, 'error');
+      .catch(err => {
+        showStatus('statusDownload', `❌ Error: ${err.message}`, 'error');
       })
       .finally(() => {
-        downloadBtn.disabled = false;
-        downloadBtn.textContent = '⬇️ Download Video';
+        btn.disabled = false;
+        btn.textContent = '⬇️ Download Video';
       });
     }
 
     function openInNewTab() {
-      if (!currentVideoUrl) {
-        showStatus('Please search for a video first', 'error');
+      if (!currentUrl) {
+        showStatus('statusDownload', '❌ Please search for a video first', 'error');
         return;
       }
 
-      const endpoint = currentVideoUrl.includes('facebook') 
-        ? '/api/download-facebook' 
-        : '/api/download-youtube';
+      const endpoint = currentUrl.includes('facebook') ? '/api/download-facebook' : '/api/download-youtube';
 
       fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ url: currentVideoUrl })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: currentUrl })
       })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         if (data.success && data.videoUrl) {
           window.open(data.videoUrl, '_blank');
-          showStatus('✅ Video opened in new tab', 'success');
+          showStatus('statusDownload', '✅ Video opened in new tab', 'success');
         } else {
-          showStatus(`❌ Error: ${data.error || 'Could not extract video'}`, 'error');
+          showStatus('statusDownload', `❌ ${data.error || 'Could not extract video'}`, 'error');
         }
       })
-      .catch(error => {
-        console.error('Error:', error);
-        showStatus(`❌ Error: ${error.message}`, 'error');
+      .catch(err => {
+        showStatus('statusDownload', `❌ Error: ${err.message}`, 'error');
       });
     }
   </script>
