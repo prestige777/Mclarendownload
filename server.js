@@ -86,7 +86,8 @@ app.post('/api/download-youtube', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Mclarendownload server running on http://localhost:${PORT}`);
-  console.log('Ready to download Facebook and YouTube videos!');
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Mclarendownload server running on port ${PORT}`);
+  console.log('Ready!');
 });
